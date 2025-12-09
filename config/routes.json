@@ -1,0 +1,130 @@
+{
+  "routes": [
+    {
+      "name": "users",
+      "path_prefix": "/users",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT"
+      ],
+      "upstreams": [
+        "http://localhost:9001",
+        "http://localhost:9003",
+        "http://localhost:9004"
+      ],
+      "filters": [
+        {
+          "name": "Logging",
+          "settings": {
+            "level": "INFO",
+            "format": "json",
+            "output": "stdout"
+          }
+        },
+        {
+          "name": "SetPath",
+          "settings": {
+            "path": "/v4"
+          }
+        },
+        {
+          "name": "RequestSize",
+          "settings": {
+            "max_size": 10
+          }
+        }
+      ]
+    },
+    {
+      "name": "orders-service",
+      "path_prefix": "/orders",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "upstreams": [
+        "http://localhost:9002",
+        "http://localhost:9008",
+        "http://localhost:9010"
+      ],
+      "auth": {
+        "enabled": true,
+        "type": "bearer"
+      },
+      "filters": [
+        {
+          "name": "RateLimit",
+          "settings": {
+            "max_requests": 10,
+            "per_second": 2
+          }
+        },
+        {
+          "name": "AddHeader",
+          "settings": {
+            "type": "response",
+            "headers": {
+              "X-Admin": "123456",
+              "Gretings": "Sup broo"
+            }
+          }
+        },
+        {
+          "name": "RemoveHeader",
+          "settings": {
+            "type": "response",
+            "headers": [
+              "X-Admin",
+              "Gretings",
+              "Server"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "admin-service",
+      "headers": {
+        "X-Admin": "true"
+      },
+      "upstreams": [
+        "http://localhost:9100"
+      ]
+    },
+    {
+      "name": "mobile-service",
+      "query_params": {
+        "device": "mobile"
+      },
+      "upstreams": [
+        "http://localhost:9200"
+      ]
+    },
+    {
+      "name": "inventory-service",
+      "host": "inventory.local",
+      "upstreams": [
+        "http://localhost:9300"
+      ]
+    },
+    {
+      "name": "fallback",
+      "path_prefix": "/",
+      "upstreams": [
+        "http://localhost:9999"
+      ]
+    }
+  ],
+  "config": {
+    "health": {
+      "failures": 3,
+      "cooldown": 10
+    } 
+  },
+  "user":{
+      "username":"admin",
+      "password":"password"
+    },
+    "enviroment":"development"
+}
