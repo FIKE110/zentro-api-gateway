@@ -124,6 +124,8 @@ func DeleteRouteHandler(w http.ResponseWriter, r *http.Request) {
 	var routePath string=config.Gf.RoutesConfigPath
 
 	data, err := os.ReadFile(routePath)
+
+
 	if err != nil {
 		http.Error(w, "Could not read routes file", http.StatusInternalServerError)
 		return
@@ -137,7 +139,7 @@ func DeleteRouteHandler(w http.ResponseWriter, r *http.Request) {
 
 	var found bool
 	var routeIndex int
-	for i, route := range gatewayConfig.Routes {
+	for i, route := range global.GetConfig().Routes {
 		if route.ID == routeID {
 			found = true
 			routeIndex = i

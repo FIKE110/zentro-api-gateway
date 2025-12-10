@@ -1,7 +1,8 @@
 {
   "routes": [
     {
-      "name": "orders-service",
+      "id": "orders-service@a7BFREvpumQDSxQvHZLgut",
+      "name": "orders-servic",
       "path_prefix": "/orders",
       "methods": [
         "GET",
@@ -12,6 +13,7 @@
         "http://localhost:9008",
         "http://localhost:9010"
       ],
+      "enabled": true,
       "auth": {
         "enabled": true,
         "type": "bearer"
@@ -45,7 +47,37 @@
             "type": "response"
           }
         }
-      ]
+      ],
+      "lb": {
+        "strategy": "round-robin",
+        "targets": [
+          "http://localhost:9002",
+          "http://localhost:9008",
+          "http://localhost:9010"
+        ],
+        "state": {
+          "http://localhost:9002": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          },
+          "http://localhost:9008": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          },
+          "http://localhost:9010": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          }
+        },
+        "cooldown": 10,
+        "failureCount": 3
+      }
     },
     {
       "name": "admin-service",
@@ -85,17 +117,6 @@
     },
     {
       "name": "Bisi",
-      "path_prefix": "/",
-      "methods": [
-        "GET"
-      ],
-      "upstreams": [],
-      "enabled": true,
-      "auth": {
-        "type": "none"
-      }
-    },
-    {
       "path_prefix": "/",
       "methods": [
         "GET"
