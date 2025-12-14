@@ -15,8 +15,7 @@ const token=useAuthStore.getState().token
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-       <BrowserRouter>
-       
+       <BrowserRouter basename="/web/">
         <App />
     </BrowserRouter>
     </QueryClientProvider>

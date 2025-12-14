@@ -4,6 +4,7 @@ import { Cloud, Save, ShieldCheck } from "lucide-react";
 import { fetchGlobalSettings, updateGlobalSettings, type GlobalSettings } from "../services/settings";
 
 const SettingsView = () => {
+
   const [form, setForm] = useState<GlobalSettings>({
     name: "",
     environment: "",
@@ -22,7 +23,6 @@ const SettingsView = () => {
     }).catch(error => {
       console.error("Failed to fetch global settings:", error);
       setInitialLoad(false);
-      // Optionally, set default values or show an error message
     });
   }, []);
 
@@ -49,7 +49,7 @@ const SettingsView = () => {
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Configuration</h1>
           <p className="text-slate-500 text-sm mt-1">Manage global gateway parameters.</p>
         </div>
-        <Button onClick={handleSave} disabled={loading}>
+        <Button className="" onClick={handleSave} disabled={loading}>
           {loading ? <span className="animate-spin mr-2">⏳</span> : <Save size={16} />}
           <span>Save Changes</span>
         </Button>
@@ -65,7 +65,8 @@ const SettingsView = () => {
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider ml-1">Environment</label>
             <select 
-              value={form.environment}
+            disabled 
+              value={form.environment.toLowerCase()}
               onChange={e => setForm({...form, environment: e.target.value})}
               className="w-full bg-slate-50 border border-transparent focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 rounded-xl px-4 py-2.5 text-sm outline-none transition-all text-slate-700"
             >
@@ -74,12 +75,12 @@ const SettingsView = () => {
               <option value="production">Production</option>
             </select>
           </div>
-          <Input label="Port" type="number" value={form.port} onChange={e => setForm({...form, port: parseInt(e.target.value)})} />
-          <Input label="Admin Email" type="email" value={form.admin_email} onChange={e => setForm({...form, admin_email: e.target.value})} />
+          {/* <Input label="Port" type="number" value={form.port} onChange={e => setForm({...form, port: parseInt(e.target.value)})} />
+          <Input label="Admin Email" type="email" value={form.admin_email} onChange={e => setForm({...form, admin_email: e.target.value})} /> */}
         </div>
       </Card>
 
-      <Card className="overflow-hidden">
+      {/* <Card className="overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50 flex items-center">
           <ShieldCheck size={18} className="mr-3 text-emerald-500"/> 
           <h3 className="font-semibold text-slate-900">Security & Traffic</h3>
@@ -91,7 +92,7 @@ const SettingsView = () => {
                <p className="text-xs text-slate-500 mt-0.5">Maximum requests per minute across all routes.</p>
              </div>
              <div className="w-32">
-               <Input type="number" value={form.global_rate_limiting} onChange={e => setForm({...form, global_rate_limiting: parseInt(e.target.value)})} />
+               <Input label="rate" type="number" value={form.global_rate_limiting} onChange={e => setForm({...form, global_rate_limiting: parseInt(e.target.value)})} />
              </div>
           </div>
           <div className="border-t border-slate-100 pt-6 flex items-center justify-between">
@@ -107,7 +108,7 @@ const SettingsView = () => {
              </button>
           </div>
         </div>
-      </Card>
+      </Card> */}
     </div>
   );
 };

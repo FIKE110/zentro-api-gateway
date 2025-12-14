@@ -29,9 +29,28 @@ func SetupRouter() *chi.Mux {
 
 	r.Use(CORSMiddleware)
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Admin server running successfully"))
+	fs := http.FileServer(http.Dir("./dist"))
+
+	r.HandleFunc("/web/*", func(w http.ResponseWriter, r *http.Request) {
+		if _, err := http.Dir("./dist").Open(r.URL.Path[5:]); err != nil {
+			http.ServeFile(w, r, "./dist/index.html")
+			return
+		}
+		http.StripPrefix("/web/", fs).ServeHTTP(w, r)
+
 	})
+
+	r.Get("/web", func(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/web/", http.StatusMovedPermanently)
+})
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "/web/", http.StatusMovedPermanently)
+})
+
+	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("OK"))
+	})
+
 
 	r.Post("/auth/login", handlers.LoginHandler)
 	r.Post("/auth/signup", handlers.SignupHandler)
@@ -41,6 +60,7 @@ func SetupRouter() *chi.Mux {
 
 		r.Get("/dashboard", handlers.DashboardHandler)
 		r.Get("/playground/routes", handlers.PlaygroundRoutesHandler)
+		r.HandleFunc("/playground/test", handlers.PlaygroundTestHandler)
 
 		r.Route("/routes", func(r chi.Router) {
 			r.Get("/", handlers.GetRoutesHandler)

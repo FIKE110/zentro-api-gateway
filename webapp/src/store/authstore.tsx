@@ -16,4 +16,4 @@ export const useAuthStore=create(persist<AuthState>((set)=>({
     setUser:(user:any)=>set(()=>({user:user})),
     setToken:(token:string | null)=>set(()=>({token:token})),
     logOut:()=>set(()=>({user:null,token:null}))
-}),{name:'auth-store',storage:createJSONStorage(() => localStorage)}))
+}),{name:'auth-store',storage:createJSONStorage(() => sessionStorage)}))

@@ -21,13 +21,10 @@ func main(){
 		log.Fatal("Could not load route config")
 	}
 	global.InitConfig(gc)
+
+	config.Init(gc.Environment)
 	
     go global.WatchConfigFile(gf.RoutesConfigPath)
-
-	consumerCfg := config.MustLoadConsumers(gf.ConsumersConfigPath)
-	global.InitConsumers(consumerCfg)
-	go global.WatchConsumersFile(gf.ConsumersConfigPath)
-
 	r:=router.NewRouter(gc.Routes)
 	go management.ManagementServer(adminAddr)
 	log.Printf("Zendor started at %d",gf.Port)

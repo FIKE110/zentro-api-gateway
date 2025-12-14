@@ -16,9 +16,18 @@ export const onTest = async (method: string, url: string, headers: any, body: st
         responseHeaders[key] = value;
     });
 
-    console.log(response)
+    let responseData: any;
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+        try {
+            responseData = await response.json();
+        } catch (e) {
 
-    const responseData = await response.text();
+            responseData = await response.text();
+        }
+    } else {
+        responseData = await response.text();
+    }
 
     return {
         status: response.status,

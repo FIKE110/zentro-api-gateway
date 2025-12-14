@@ -24,12 +24,10 @@ var (
 ░░░░░░░░░░░  ░░░░░░  ░░░░ ░░░░░    ░░░░░   ░░░░░░  ░░░░░ `
 )
 
-func init() {
+func Init(environment string) {
 	globalConfig = &GlobalConfig{
 		Name:                "Zentor gateway",
-		Environment:         "Development",
-		Port:                8000,
-		AdminEmail:          "dev@localhost",
+		Environment:         environment,
 		GlobalRateLimiting: 10000,
 		Cors:                true,
 	}

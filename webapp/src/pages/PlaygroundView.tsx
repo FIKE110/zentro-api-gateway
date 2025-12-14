@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Terminal, Play, X } from 'lucide-react';
+import { Terminal, Play, X, Loader } from 'lucide-react';
 import { usePlaygroundRoutes } from '../hooks/usePlaygroundRoutes';
+import { onTest } from '../services/playground';
+import { useMutation } from '@tanstack/react-query';
 
 const Card = ({ children, className = "" }) => (
   <div className={`bg-white rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}>
@@ -25,7 +27,7 @@ const Button = ({ children, variant = "primary", className, ...props }) => {
   );
 };
 
-const PlaygroundView = ({ onTest }) => {
+const PlaygroundView = () => {
   const { data: routes, isLoading: routesLoading, error: routesError } = usePlaygroundRoutes();
   const [method, setMethod] = useState('GET');
   const [url, setUrl] = useState('');
@@ -36,6 +38,7 @@ const PlaygroundView = ({ onTest }) => {
   const [headers, setHeaders] = useState([{ key: "", value: "" }]);
   const [queryParams, setQueryParams] = useState([{ key: "", value: "" }]);
   const [body, setBody] = useState('{\n  \n}');
+
 
   const updateRow = (setter, list, index, field, val) => {
     const copy = [...list];
@@ -78,7 +81,7 @@ const PlaygroundView = ({ onTest }) => {
   const TabButton = ({ id, label, count }) => (
     <button 
       onClick={() => setActiveTab(id)}
-      className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors ${
+      className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border-b-2 transition-colors ${ 
         activeTab === id ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-slate-400 hover:text-slate-600'
       }`}
     >
@@ -108,7 +111,7 @@ const PlaygroundView = ({ onTest }) => {
     <div className="h-[calc(100vh-8rem)] flex flex-col animate-in fade-in duration-500">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">API Playground</h1>
-        <p className="text-slate-500 text-sm mt-1">Test your gateway routes with advanced request composition.</p>
+        <p className="text-slate-500 text-sm mt-1">Test your gateway routes with simple request composition.</p>
       </div>
 
       <div className="flex-1 flex flex-col lg:flex-row gap-6 min-h-0">
@@ -150,7 +153,7 @@ const PlaygroundView = ({ onTest }) => {
                  className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2 font-mono text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
                />
                <Button onClick={handleSend} disabled={loading} className="px-6">
-                 {loading ? <span className="animate-spin">⏳</span> : <Play size={16} fill="currentColor" />}
+                 {loading ? <span className="animate-spin"><Loader /> </span> : <Play size={16} fill="currentColor" />}
                </Button>
              </div>
           </div>
@@ -198,7 +201,7 @@ const PlaygroundView = ({ onTest }) => {
              <h3 className="font-semibold text-xs uppercase tracking-wider text-slate-400">Response</h3>
              {response && (
                <div className="flex items-center space-x-3">
-                 <span className={`px-2 py-0.5 rounded text-xs font-bold border ${
+                 <span className={`px-2 py-0.5 rounded text-xs font-bold border ${ 
                    response.status < 300 ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-rose-500/20 text-rose-400 border-rose-500/30'
                  }`}>
                    {response.status} {response.statusText}

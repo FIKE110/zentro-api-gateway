@@ -6,7 +6,7 @@ import { useAuthStore } from '../store/authstore';
 const fetchPlaygroundRoutes = async (): Promise<Route[]> => {
   const token=useAuthStore.getState().token
   console.log(token)
-  return createApi('http://localhost:8001/api/playground/routes',{
+  return createApi('/api/playground/routes',{
     headers:{
       'Authorization':`Bearer ${token}`
     }
@@ -16,7 +16,6 @@ const fetchPlaygroundRoutes = async (): Promise<Route[]> => {
 export const usePlaygroundRoutes = () => {
   return useQuery({
     queryKey: ['playgroundRoutes'],
-    queryFn: fetchPlaygroundRoutes,
-    refetchOnMount:false
+    queryFn: fetchPlaygroundRoutes
   });
 };

@@ -22,18 +22,13 @@ export const fetchGlobalSettings = async (): Promise<GlobalSettings> => {
 };
 
 export const updateGlobalSettings = async (settings: GlobalSettings): Promise<GlobalSettings> => {
-  const response = await fetch(`${API_BASE_URL}/api/settings`, {
+  const token = useAuthStore.getState().token;
+  return await createApi('/api/settings', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // Assuming a JWT token is stored in localStorage after login
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      'Authorization': `Bearer ${token}`,
     },
     body: JSON.stringify(settings),
   });
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-  const data = await response.json();
-  return data;
 };

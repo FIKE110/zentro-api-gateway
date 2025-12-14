@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { Bell, ChevronRight, Cloud, FileJson, Gauge, LogOut, Menu, ScrollText, Search, Sliders, Terminal, Users, Waypoints, X } from "lucide-react";
 import { Toast } from "./components/ui";
 import RoutesView from "./pages/RoutesView";
-import ConsumersView from "./pages/ConsumerView";
 import PlaygroundView from "./pages/PlaygroundView";
-import { onTest } from "./services/playground";
 import FullConfigView from "./pages/FullConfigView";
 import TrafficLogsView from "./pages/TrafficLogsView";
 import AuthView from "./pages/AuthView";
@@ -235,8 +233,8 @@ export default function App() {
                 <Route element={<FullConfigView />} path="/full-config"/>
                 <Route element={<TrafficLogsView />} path="/logs"/>
                 <Route element={<SettingsView />} path="/settings"/>
-                <Route element={<PlaygroundView onTest={onTest}/>} path="/playground"/>
-                 <Route element={<RoutesView onDuplicate={()=>{}} onDelete={()=>{}} onEdit={()=>{}} onToggle={()=>{}} />} path="/routes"/>
+                <Route element={<PlaygroundView />} path="/playground"/>
+                 <Route element={<RoutesView  />} path="/routes"/>
               </Routes>
         
           </div>

@@ -1,85 +1,6 @@
 {
   "routes": [
     {
-      "id": "orders-service@a7BFREvpumQDSxQvHZLgut",
-      "name": "orders-servic",
-      "path_prefix": "/orders",
-      "methods": [
-        "GET",
-        "POST"
-      ],
-      "upstreams": [
-        "http://localhost:9002",
-        "http://localhost:9008",
-        "http://localhost:9010"
-      ],
-      "enabled": true,
-      "auth": {
-        "enabled": true,
-        "type": "bearer"
-      },
-      "filters": [
-        {
-          "name": "RateLimit",
-          "settings": {
-            "max_requests": 10,
-            "per_second": 2
-          }
-        },
-        {
-          "name": "AddHeader",
-          "settings": {
-            "headers": {
-              "Gretings": "Sup broo",
-              "X-Admin": "123456"
-            },
-            "type": "response"
-          }
-        },
-        {
-          "name": "RemoveHeader",
-          "settings": {
-            "headers": [
-              "X-Admin",
-              "Gretings",
-              "Server"
-            ],
-            "type": "response"
-          }
-        }
-      ],
-      "lb": {
-        "strategy": "round-robin",
-        "targets": [
-          "http://localhost:9002",
-          "http://localhost:9008",
-          "http://localhost:9010"
-        ],
-        "state": {
-          "http://localhost:9002": {
-            "healthy": true,
-            "failCount": 0,
-            "test": false,
-            "lastFalure": null
-          },
-          "http://localhost:9008": {
-            "healthy": true,
-            "failCount": 0,
-            "test": false,
-            "lastFalure": null
-          },
-          "http://localhost:9010": {
-            "healthy": true,
-            "failCount": 0,
-            "test": false,
-            "lastFalure": null
-          }
-        },
-        "cooldown": 10,
-        "failureCount": 3
-      }
-    },
-    {
       "name": "admin-service",
       "headers": {
         "X-Admin": "true"
@@ -272,6 +193,96 @@
         "cooldown": 10,
         "failureCount": 3
       }
+    },
+    {
+      "name": "orders-servi (Copy)",
+      "path_prefix": "/orders",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "upstreams": [
+        "http://localhost:9002",
+        "http://localhost:9008",
+        "http://localhost:9010"
+      ],
+      "enabled": true,
+      "auth": {
+        "enabled": true,
+        "type": "bearer"
+      },
+      "filters": [
+        {
+          "name": "RateLimit",
+          "settings": {
+            "max_requests": 10,
+            "per_second": 2
+          }
+        },
+        {
+          "name": "AddHeader",
+          "settings": {
+            "headers": {
+              "Gretings": "Sup broo",
+              "X-Admin": "123456"
+            },
+            "type": "response"
+          }
+        },
+        {
+          "name": "RemoveHeader",
+          "settings": {
+            "headers": [
+              "X-Admin",
+              "Gretings",
+              "Server"
+            ],
+            "type": "response"
+          }
+        }
+      ],
+      "lb": {
+        "strategy": "round-robin",
+        "targets": [
+          "http://localhost:9002",
+          "http://localhost:9008",
+          "http://localhost:9010"
+        ],
+        "state": {
+          "http://localhost:9002": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          },
+          "http://localhost:9008": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          },
+          "http://localhost:9010": {
+            "healthy": true,
+            "failCount": 0,
+            "test": false,
+            "lastFalure": null
+          }
+        },
+        "cooldown": 10,
+        "failureCount": 3
+      }
+    },
+    {
+      "name": "obinna",
+      "path_prefix": "/",
+      "methods": [
+        "GET"
+      ],
+      "upstreams": [],
+      "enabled": true,
+      "auth": {
+        "type": "none"
+      }
     }
   ],
   "config": {
@@ -284,5 +295,5 @@
     "username": "admin",
     "password": "password"
   },
-  "environment": ""
+  "environment": "staging"
 }
