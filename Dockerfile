@@ -12,11 +12,12 @@ COPY webapp ./webapp
 # Build webapp
 # The vite config outputs to ../internal/embedf/dist, so we need to ensure the parent structure exists or just let vite create it relative to webapp
 WORKDIR /app/webapp
+ENV CI=true
 RUN pnpm install
 RUN pnpm build
 
 # Stage 2: Build the Backend
-FROM golang:1.23-alpine AS backend-builder
+FROM golang:1.24-alpine AS backend-builder
 
 WORKDIR /app
 
