@@ -31,7 +31,6 @@ func LoadConsumers(path string) (*ConsumerConfig, error) {
 		return nil, err
 	}
 
-	// Auto-generate IDs and API keys if they are missing
 	for i := range cfg.Consumers {
 		if cfg.Consumers[i].Id == "" {
 			cfg.Consumers[i].Id = utils.GenerateRandomID(16)

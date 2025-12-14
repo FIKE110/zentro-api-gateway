@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"log"
 	"net/http"
 	"strings"
@@ -90,20 +91,19 @@ func ChangePasswordHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"message": "Password updated successfully"})
 }
 
-func ManagementServer(addr string) {
-	user:=global.GetConfig().User 
-	username:="admin"
+func ManagementServer(addr string, uiFS fs.FS) {
+	user := global.GetConfig().User
+	username := "admin"
 
 	adminPassword, err := auth.GenerateRandomPassword(16)
-	if len(user.Username)!=0{
-		username=user.Username
+	if len(user.Username) != 0 {
+		username = user.Username
 	}
 
-
-	if len(user.Password)!=0{
-		adminPassword=user.Password
+	if len(user.Password) != 0 {
+		adminPassword = user.Password
 	}
-	
+
 	if err != nil {
 		panic(fmt.Sprintf("Could not generate random password: %v", err))
 	}
@@ -115,13 +115,13 @@ func ManagementServer(addr string) {
 	fmt.Println("=======================================")
 	fmt.Printf("Default Admin User Initialized\n")
 	fmt.Printf("Username: admin\n")
-	if len(user.Password)==0{
+	if len(user.Password) == 0 {
 		fmt.Printf("Password: %s\n", adminPassword)
 	}
 	fmt.Println("=======================================")
 
-	r := SetupRouter()
-	
+	r := SetupRouter(uiFS)
+
 	// Add settings routes here as they need the middleware context
 	r.Route("/api/middle/settings", func(r chi.Router) {
 		r.Use(JwtMiddleware)
@@ -129,8 +129,7 @@ func ManagementServer(addr string) {
 		r.Put("/change-username", ChangeUsernameHandler)
 	})
 
-
-	if err=http.ListenAndServe(addr, r); err!=nil{
+	if err = http.ListenAndServe(addr, r); err != nil {
 		log.Println(err)
 	}
 }
@@ -159,7 +158,7 @@ func ChangeUsernameHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user, _ := auth.GetUser(username)
-	
+
 	// Create a new user object with the new username
 	newUser := &auth.User{
 		Username:     req.NewUsername,
@@ -176,11 +175,10 @@ func ChangeUsernameHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Could not issue new token after username change", http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(map[string]string{
 		"message": "Username updated successfully. Please use the new token.",
 		"token":   newToken,
 	})
 }
-

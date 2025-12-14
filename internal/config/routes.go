@@ -17,18 +17,18 @@ type Auth struct {
 }
 
 type Route struct {
-	ID          string                  `json:"id,omitempty"`           // Unique identifier for the route
-	Name        string                  `json:"name,omitempty"`         // Human-friendly service name
-	PathPrefix  string                  `json:"path_prefix,omitempty"`  // URL path prefix
-	Methods     []string                `json:"methods,omitempty"`      // Allowed HTTP methods
-	Headers     map[string]string       `json:"headers,omitempty"`      // Header-based routing
-	QueryParams map[string]string       `json:"query_params,omitempty"` // Query-based routing
-	Host        string                  `json:"host,omitempty"`         // Host-based routing
-	Upstreams   []string                `json:"upstreams"`              // URL of the service to forward to
+	ID          string                  `json:"id,omitempty"`
+	Name        string                  `json:"name,omitempty"`
+	PathPrefix  string                  `json:"path_prefix,omitempty"`
+	Methods     []string                `json:"methods,omitempty"`
+	Headers     map[string]string       `json:"headers,omitempty"`
+	QueryParams map[string]string       `json:"query_params,omitempty"`
+	Host        string                  `json:"host,omitempty"`
+	Upstreams   []string                `json:"upstreams"`
 	Enabled     *bool                   `json:"enabled,omitempty"`
 	Auth        Auth                    `json:"auth,omitempty"`
 	Filters     []filters.GenericFilter `json:"filters,omitempty"`
-	Lb          *lb.LoadBalancer `json:"lb,omitempty"`
+	Lb          *lb.LoadBalancer        `json:"lb,omitempty"`
 }
 
 type Health struct {
@@ -40,16 +40,16 @@ type Config struct {
 	Health Health `json:"health,omitempty"`
 }
 
-type ConfigUser struct{
+type ConfigUser struct {
 	Username string `json:"username,omitempty"`
-	Password string  `json:"password,omitempty"`
+	Password string `json:"password,omitempty"`
 }
 
 type GatewayConfig struct {
-	Routes []Route `json:"routes"`
-	Config Config  `json:"config"`
-	User ConfigUser `json:"user"`
-	Environment string `json:"environment"`
+	Routes      []Route    `json:"routes"`
+	Config      Config     `json:"config"`
+	User        ConfigUser `json:"user"`
+	Environment string     `json:"environment"`
 }
 
 func (r Route) IsEnabled() bool {
@@ -75,10 +75,10 @@ func LoadRoutes(path string) (*GatewayConfig, error) {
 			cfg.Routes[i].ID = fmt.Sprint(cfg.Routes[i].Name, "@", utils.GenerateRouteID())
 		}
 
-        if cfg.Routes[i].Enabled==nil{
-            enable:=true
-            cfg.Routes[i].Enabled=&enable
-        }
+		if cfg.Routes[i].Enabled == nil {
+			enable := true
+			cfg.Routes[i].Enabled = &enable
+		}
 
 		if cfg.Routes[i].Name == "" {
 			cfg.Routes[i].ID = utils.GenerateRouteID()

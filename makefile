@@ -1,15 +1,11 @@
 # Makefile for Go project (production build)
 
-# Binary name
 BINARY = main
 
-# Version (can override via CLI, e.g., make build VERSION=1.2.0)
 VERSION ?= dev
 
-# Go package directory (default: current directory)
 PKG ?= ./cmd/gateway
 
-# Platforms for cross-compilation
 OSARCH = \
     linux/amd64 \
     linux/arm64 \
@@ -17,19 +13,23 @@ OSARCH = \
     darwin/arm64 \
     windows/amd64
 
-# Default target
-.PHONY: all
-all: build
+WEB_DIR = webapp
 
-# Build for local system
+.PHONY: all
+all: build-web build
+
+.PHONY: build-web
+build-web:
+	@echo "Building webapp..."
+	cd $(WEB_DIR) && pnpm install && pnpm build
+
 .PHONY: build
-build:
+build: build-web
 	@echo "Building $(BINARY) for local system from package $(PKG)..."
 	CGO_ENABLED=0 go build -ldflags="-s -w -X main.Version=$(VERSION)" -o $(BINARY) $(PKG)
 
-# Build for all platforms (cross-compile)
 .PHONY: build-all
-build-all:
+build-all: build-web
 	@echo "Cross-compiling for all platforms from package $(PKG)..."
 	@for osarch in $(OSARCH); do \
 		OS=$${osarch%/*}; ARCH=$${osarch#*/}; \
@@ -39,13 +39,13 @@ build-all:
 		GOOS=$$OS GOARCH=$$ARCH CGO_ENABLED=0 go build -ldflags="-s -w -X main.Version=$(VERSION)" -o $$BIN $(PKG); \
 	done
 
-# Clean built binaries
 .PHONY: clean
 clean:
 	@echo "Cleaning binaries..."
 	rm -f $(BINARY) $(BINARY)_* *.exe
+	@echo "Cleaning webapp dist..."
+	rm -rf internal/embedf/dist
 
-# Run the binary locally
 .PHONY: run
 run: build
 	@echo "Running $(BINARY)..."
