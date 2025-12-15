@@ -38,7 +38,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/fike110/zentro' }
+      { icon: 'github', link: 'https://github.com/fike110/zendor-api-gateway' }
     ]
   }
 })

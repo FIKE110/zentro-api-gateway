@@ -4,15 +4,15 @@
   <p align="center">
     A high-performance, lightweight API Gateway built with Go and React.
     <br />
-    <a href="https://github.com/fike110/zentro/issues/new?template=bug.md">Report bug</a>
+    <a href="https://github.com/fike110/zendor-api-gateway/issues/new?template=bug.md">Report bug</a>
     ·
-    <a href="https://github.com/fike110/zentro/issues/new?template=feature.md&labels=feature">Request feature</a>
+    <a href="https://github.com/fike110/zendor-api-gateway/issues/new?template=feature.md&labels=feature">Request feature</a>
   </p>
 </div>
 
 ---
 
-##  About
+## About
 
 **Zentro** is a modern, lightweight API Gateway designed to unify entry points for microservices. It combines the raw performance of **Go** on the backend with a sleek, responsive **React** dashboard for management and monitoring.
 
@@ -20,45 +20,43 @@ Whether you need dynamic routing, load balancing, or real-time traffic insights,
 
 ## ✨ Features
 
-- ** High Performance:** Built with Go 1.24 and Chi router for minimal latency.
-- ** Dynamic Routing:** Configure routes via JSON without restarting the server.
-- ** Load Balancing:** Native support for distributing traffic across multiple upstream services.
-- ** Middleware & Filters:** Built-in support for authentication, rate limiting, and logging.
-- ** Real-time Monitoring:** Live traffic visualization and metrics using Recharts.
-- ** Modern UI:** A beautiful, responsive dashboard built with React 19, Vite, and Tailwind CSS 4.
-- ** Extensible:** Modular architecture allowing for custom filter and middleware integration.
+- **⚡ High Performance:** Built with Go 1.24 and Chi router for minimal latency.
+- **🔀 Dynamic Routing:** Configure routes via JSON without restarting the server.
+- **⚖️ Load Balancing:** Native support for distributing traffic across multiple upstream services.
+- **🛡️ Middleware & Filters:** Built-in support for authentication, rate limiting, and logging.
+- **📊 Real-time Monitoring:** Live traffic visualization and metrics using Recharts.
+- **💻 Modern UI:** A beautiful, responsive dashboard built with React 19, Vite, and Tailwind CSS 4.
+- **🔌 Extensible:** Modular architecture allowing for custom filter and middleware integration.
 
-## Tech Stack
+## 🛠️Tech Stack
 
 ### Backend
 - **Language:** [Go](https://go.dev/) (v1.24+)
-- **Router:** [Chi](https://github.com/go-chi/chi) - lightweight, idiomatic, and composable router.
-- **Utilities:** `fsnotify` for hot-reloading configurations.
+- **Router:** [Chi](https://github.com/go-chi/chi)
+- **Concurrency:** Goroutines & Channels
 
-### Frontend
+### Frontend (Management UI)
 - **Framework:** [React 19](https://react.dev/)
-- **Build Tool:** [Vite 7](https://vitejs.dev/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
 - **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
 - **State Management:** [Zustand](https://github.com/pmndrs/zustand)
-- **Data Fetching:** [TanStack Query v5](https://tanstack.com/query/latest)
-- **Visualization:** [Recharts](https://recharts.org/)
-- **Icons:** [Lucide React](https://lucide.dev/)
+- **Charts:** [Recharts](https://recharts.org/)
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
 Ensure you have the following installed:
 - **Go**: Version 1.24 or later.
-- **Node.js**: Version 20 or later (recommended for Vite 7).
+- **Node.js**: Version 20 or later (recommended for Vite).
 - **pnpm**: Recommended package manager (or npm/yarn).
 
 ### Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/fike110/zentro.git
-    cd zentro
+    git clone https://github.com/fike110/zendor-api-gateway.git
+    cd zendor-api-gateway
     ```
 
 2.  **Install Frontend Dependencies:**

@@ -10,8 +10,8 @@
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/fike110/zentro.git
-    cd zentro
+    git clone https://github.com/fike110/zendor-api-gateway.git
+    cd zendor-api-gateway
     ```
 
 2.  **Install Frontend Dependencies:**
